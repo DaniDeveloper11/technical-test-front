@@ -1,9 +1,16 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { LayoutComponent } from '../../shared/components/layout/layout.component';
 import { HomeComponent } from './pages/home/home.component';
-import { AuthGuard } from '../../core/guards/auth.guard';
+
 const routes: Routes = [
-  { path: '', component: HomeComponent, canActivate: [AuthGuard] }
+  {
+    path: '',
+    component: LayoutComponent, // Usamos el Layout como envoltorio
+    children: [
+      { path: '', component: HomeComponent }
+    ]
+  }
 ];
 
 @NgModule({

@@ -20,12 +20,19 @@ export class LoginComponent {
     this.isSubmitting = true;
     this.errorMessage = '';
 
-    this.authService.login(this.email, this.password).subscribe(success => {
-      this.isSubmitting = false;
-      if (success) {
-        this.router.navigate(['/home']); // Redirigir a Home después del login exitoso
-      } else {
-        this.errorMessage = 'Credenciales incorrectas';
+    this.authService.login(this.email, this.password).subscribe({
+      // this.isSubmitting = false;
+      // if (success) {
+      //   this.router.navigate(['/home']); // Redirigir a Home después del login exitoso
+      // } else {
+      //   this.errorMessage = 'Credenciales incorrectas';
+      // }
+      next: () => {
+        this.router.navigate(['/home']); // Redirige después del login
+      },
+      error: () => {
+        this.errorMessage = 'Invalid email or password';
+        this.isSubmitting = false;
       }
     });
   }

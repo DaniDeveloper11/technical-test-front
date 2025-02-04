@@ -1,0 +1,37 @@
+<div class="container mt-4">
+  <h2>Agregar Usuario</h2>
+  <form (ngSubmit)="createUser()">
+    <div class="mb-3">
+      <label class="form-label">Nombre</label>
+      <input type="text" class="form-control" [(ngModel)]="user.name" name="name" required>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Correo</label>
+      <input type="email" class="form-control" [(ngModel)]="user.email" name="email" required>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Teléfono</label>
+      <input type="text" class="form-control" [(ngModel)]="user.phone" name="phone" required>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Contraseña</label>
+      <input type="password" class="form-control" [(ngModel)]="user.password" name="password" required>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Rol</label>
+      <select class="form-select" [(ngModel)]="user.role" name="role">
+        <option value="admin">Administrador</option>
+        <option value="user">Usuario</option>
+      </select>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Estatus</label>
+      <select class="form-select" [(ngModel)]="user.status" name="status">
+        <option value="active">Activo</option>
+        <option value="inactive">Inactivo</option>
+      </select>
+    </div>
+    <button type="submit" class="btn btn-primary" [disabled]="isSubmitting">Guardar</button>
+    <a routerLink="/users" class="btn btn-secondary ms-2">Cancelar</a>
+  </form>
+</div>

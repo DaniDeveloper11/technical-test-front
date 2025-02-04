@@ -1,0 +1,58 @@
+<div class="container mt-4">
+  <h2>Gestión de Clientes</h2>
+
+  <div class="d-flex justify-content-between mb-3">
+    <input type="text" class="form-control w-50" [(ngModel)]="searchQuery" placeholder="Buscar por nombre..." (input)="applyFilters()">
+    <select class="form-select w-25" [(ngModel)]="statusFilter" (change)="applyFilters()">
+      <option value="">Todos</option>
+      <option value="active">Activos</option>
+      <option value="inactive">Inactivos</option>
+    </select>
+    <a routerLink="/users/create" class="btn btn-primary">+ Crear Usuario</a>
+  </div>
+
+  <div *ngIf="filteredUsers.length === 0" class="text-center mt-4">
+    <p class="text-muted">No hay clientes registrados.</p>
+    <button class="btn btn-primary" routerLink="/users/create">Agregar Cliente</button>
+  </div>
+
+  <table *ngIf="filteredUsers.length > 0" class="table table-striped">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Correo</th>
+        <th>Teléfono</th>
+        <th>Rol</th>
+        <th>Estatus</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of filteredUsers.slice((currentPage-1) * itemsPerPage, currentPage * itemsPerPage)">
+        <td>{{ user.name }}</td>
+        <td>{{ user.email }}</td>
+        <td>{{ user.phone }}</td>
+        <td>{{ user.role === 'admin' ? 'Administrador' : 'Usuario' }}</td>
+        <td>
+          <span class="badge" [ngClass]="{'bg-success': user.status === 'active', 'bg-secondary': user.status === 'inactive'}">
+            {{ user.status === 'active' ? 'Activo' : 'Inactivo' }}
+          </span>
+        </td>
+        <td>
+          <button class="btn btn-warning btn-sm" [routerLink]="['/users/edit', user.id]">Editar</button>
+          <button class="btn btn-danger btn-sm ms-2" (click)="deleteUser(user.id)">Eliminar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+
+  <!-- Paginación -->
+  <nav *ngIf="filteredUsers.length > itemsPerPage">
+    <ul class="pagination">
+      <li class="page-item" *ngFor="let page of getTotalPages()">
+        <button class="page-link" (click)="changePage(page)">{{ page }}</button>
+      </li>
+    </ul>
+  </nav>
+</div>
