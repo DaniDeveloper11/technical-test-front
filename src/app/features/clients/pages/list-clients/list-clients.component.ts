@@ -21,7 +21,7 @@ export class ListClientsComponent implements OnInit {
   }
 
   fetchClients(): void {
-    this.clientsService.getClients().subscribe((clients: Client[]) => { // 👈 Agregar el tipo explícitamente
+    this.clientsService.getClients().subscribe((clients: Client[]) => { //  Agregar el tipo explícitamente
       this.clients = clients;
       this.applyFilters();
     });
