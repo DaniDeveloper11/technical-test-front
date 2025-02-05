@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../../../core/services/auth.service';
 import { Router } from '@angular/router';
 import { AlertService } from '../../../../core/services/alert.service';
+import { UsersService,User } from '../../../../core/services/users.service';
 
 @Component({
   selector: 'app-login',
@@ -9,6 +10,7 @@ import { AlertService } from '../../../../core/services/alert.service';
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
+  users: User[]=[]
   isSubmitting: boolean = false;
   email: string = '';
   password: string = '';
@@ -18,7 +20,15 @@ export class LoginComponent {
   constructor(
     private authService: AuthService,
     private router: Router,
-    private alertService: AlertService) {}
+    private alertService: AlertService,
+    private usersService: UsersService
+  ) {}
+  ngOnInit():void{
+    this.getUsers();
+    console.log(this.users)
+  }
+
+
 
   onSubmit(): void {
     this.isSubmitting = true;
@@ -37,4 +47,17 @@ export class LoginComponent {
       }
     });
   }
+  getUsers(): void {
+    this.usersService.getUsers().subscribe({
+      next: (users) => {
+        this.users = users; // Guardar la lista de usuarios en la variable
+        console.log('Usuarios obtenidos:', this.users); // 👈 Depuración en consola
+      },
+      error: (error) => {
+        console.error('Error al obtener usuarios:', error);
+        this.alertService.error('Error', 'No se pudieron obtener los usuarios.');
+      }
+    });
+  }
+
 }

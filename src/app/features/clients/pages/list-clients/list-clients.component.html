@@ -1,54 +1,59 @@
 <div class="container mt-4">
-  <h2>Gestión de Clientes</h2>
+  <h2 class="text-center text-md-start">Gestión de Clientes</h2>
 
-  <div class="d-flex justify-content-between mb-3">
-    <input type="text" class="form-control w-50" [(ngModel)]="searchQuery" placeholder="Buscar por nombre..." (input)="applyFilters()">
-    <select class="form-select w-25" [(ngModel)]="statusFilter" (change)="applyFilters()">
+  <!-- Barra de búsqueda y filtros -->
+  <div class="d-flex flex-column flex-md-row flex-wrap justify-content-between align-items-center mb-3 gap-2">
+    <input type="text" class="form-control w-100 w-md-50" [(ngModel)]="searchQuery" placeholder="Buscar por nombre..." (input)="applyFilters()">
+
+    <select class="form-select w-100 w-md-25" [(ngModel)]="statusFilter" (change)="applyFilters()">
       <option value="">Todos</option>
       <option value="active">Activos</option>
       <option value="inactive">Inactivos</option>
     </select>
-    <a *ngIf="filteredClients.length >0" routerLink="/clients/create" class="btn btn-primary">+ Agregar Cliente</a>
+
+    <a *ngIf="filteredClients.length > 0" routerLink="/clients/create" class="btn btn-primary w-100 w-md-auto">+ Agregar Cliente</a>
   </div>
 
+  <!-- Estado vacío -->
   <div *ngIf="filteredClients.length === 0" class="text-center mt-4">
     <p class="text-muted">No hay clientes registrados.</p>
     <button class="btn btn-primary" routerLink="/clients/create">Agregar Cliente</button>
   </div>
 
-  <table *ngIf="filteredClients.length > 0" class="table table-striped">
-    <thead>
-      <tr>
-        <th>Nombre</th>
-        <th>Correo</th>
-        <th>Teléfono</th>
-        <th>Estatus</th>
-        <th>Acciones</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let client of filteredClients.slice((currentPage-1) * itemsPerPage, currentPage * itemsPerPage)">
-        <td>{{ client.name }}</td>
-        <td>{{ client.email }}</td>
-        <td>{{ client.phone }}</td>
-        <!-- <td>{{ client.role === 'admin' ? 'Administrador' : 'Usuario' }}</td> -->
-        <td>
-          <span class="badge" [ngClass]="{'bg-success': client.status === 'active', 'bg-secondary': client.status === 'inactive'}">
-            {{ client.status === 'active' ? 'Activo' : 'Inactivo' }}
-          </span>
-        </td>
-        <td>
-          <button class="btn btn-warning btn-sm" [routerLink]="['/clients/edit', client.id]">Editar</button>
-          <button class="btn btn-danger btn-sm ms-2" (click)="deleteClient(client.id)">Eliminar</button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-
+  <!-- Tabla responsiva -->
+  <div class="table-responsive">
+    <table *ngIf="filteredClients.length > 0" class="table table-striped">
+      <thead class="text-center">
+        <tr>
+          <th>Nombre</th>
+          <th>Correo</th>
+          <th>Teléfono</th>
+          <th>Estatus</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let client of filteredClients.slice((currentPage-1) * itemsPerPage, currentPage * itemsPerPage)">
+          <td>{{ client.name }}</td>
+          <td>{{ client.email }}</td>
+          <td>{{ client.phone }}</td>
+          <td>
+            <span class="badge" [ngClass]="{'bg-success': client.status === 'active', 'bg-secondary': client.status === 'inactive'}">
+              {{ client.status === 'active' ? 'Activo' : 'Inactivo' }}
+            </span>
+          </td>
+          <td class="text-center">
+            <button class="btn btn-warning btn-sm mb-1 mb-md-0" [routerLink]="['/clients/edit', client.id]">Editar</button>
+            <button class="btn btn-danger btn-sm ms-md-2" (click)="deleteClient(client.id)">Eliminar</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
   <!-- Paginación -->
   <nav *ngIf="filteredClients.length > itemsPerPage">
-    <ul class="pagination">
+    <ul class="pagination justify-content-center flex-wrap">
       <li class="page-item" *ngFor="let page of getTotalPages()">
         <button class="page-link" (click)="changePage(page)">{{ page }}</button>
       </li>

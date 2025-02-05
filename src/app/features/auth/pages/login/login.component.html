@@ -3,7 +3,23 @@
 
     <div class="container text-center text-white position-relative z-3">
       <h2 class="fw-bold">Sign in to your account</h2>
-      <p class="text-light">Not a member? <a href="#" class="fw-bold text-white">Contact us</a></p>
+      <div class="d-md-none mt-2">
+        <div class="card bg-transparent text-white border-0 shadow-sm p-2">
+          <div class="card-header bg-primary py-2 text-center">
+            <h6 class="mb-0 small">Usuarios de Prueba</h6>
+          </div>
+          <div class="card-body p-2">
+            <div *ngFor="let user of users" class="small px-2 py-1 border-bottom">
+              <p class="mb-1"><strong>Correo:</strong> {{ user.email }}</p>
+              <p class="mb-1"><strong>Contraseña:</strong>
+                <span class="text-warning">
+                  {{ user.email === 'admin@example.com' ? 'admin123' : user.email === 'user@example.com' ? 'user123' : 'N/A' }}
+                </span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
 
       <div class="mt-4">
         <form (ngSubmit)="onSubmit()" class="needs-validation" novalidate>
@@ -31,9 +47,33 @@
   </div>
 
   <div class="d-none d-lg-block bg-cover bg-center vh-100 w-50 text-white text-center d-flex flex-column justify-content-center align-items-center p-5" >
-
-    <a routerLink="admin" class="btn btn-success btn-lg rounded-pill px-5 py-2 fw-bold shadow-lg">
-      Registrate
-    </a>
+    <div class="container mt-4">
+      <div class="row justify-content-center">
+        <div class="col-md-6">
+          <div class="card shadow">
+            <div class="card-header bg-primary text-white text-center">
+              <h5>Usuarios de Prueba</h5>
+            </div>
+            <div class="card-body">
+              <table class="table table-striped text-center">
+                <thead>
+                  <tr>
+                    <th>Email</th>
+                    <th>Password</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let user of users">
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.email === 'admin@example.com' ?'admin123' : user.email ==='user@example.com'? 'user123':''}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <pre>{{users | json}}</pre>
   </div>
 </div>
