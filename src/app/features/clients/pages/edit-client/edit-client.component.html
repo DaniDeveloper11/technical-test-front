@@ -1,0 +1,26 @@
+<div class="container mt-4">
+  <h2>Editar Cliente</h2>
+  <form (ngSubmit)="updateClient()">
+    <div class="mb-3">
+      <label class="form-label">Nombre</label>
+      <input type="text" class="form-control" [(ngModel)]="client.name" name="name" required>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Correo</label>
+      <input type="email" class="form-control" [(ngModel)]="client.email" name="email" required>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Teléfono</label>
+      <input type="text" class="form-control" [(ngModel)]="client.phone" name="phone" required>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Estatus</label>
+      <select class="form-select" [(ngModel)]="client.status" name="status">
+        <option value="active">Activo</option>
+        <option value="inactive">Inactivo</option>
+      </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Actualizar</button>
+    <a routerLink="/clients" class="btn btn-secondary ms-2">Cancelar</a>
+  </form>
+</div>

@@ -1,0 +1,33 @@
+<div class="container mt-4">
+  <h2>Clientes</h2>
+  <a routerLink="/clients/create" class="btn btn-primary mb-3">+ Agregar Cliente</a>
+
+  <table class="table table-striped" *ngIf="clients.length > 0">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Correo</th>
+        <th>Teléfono</th>
+        <th>Estatus</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let client of clients">
+        <td>{{ client.name }}</td>
+        <td>{{ client.email }}</td>
+        <td>{{ client.phone }}</td>
+        <td>{{ client.status === 'active' ? 'Activo' : 'Inactivo' }}</td>
+        <td>
+          <button class="btn btn-warning btn-sm" [routerLink]="['/clients/edit', client.id]">Editar</button>
+          <button class="btn btn-danger btn-sm ms-2" (click)="deleteClient(client.id)">Eliminar</button>
+        </td>
+
+      </tr>
+    </tbody>
+  </table>
+
+  <div *ngIf="clients.length === 0" class="text-center text-muted">
+    No hay clientes registrados.
+  </div>
+</div>

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-interface Client {
+export interface Client {
   id: number;
   name: string;
   email: string;
@@ -12,7 +12,7 @@ interface Client {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root' // 👈 Esto garantiza que se pueda inyectar en cualquier parte de la app
 })
 export class ClientsService {
   private apiUrl = 'http://localhost:5000/clients';
@@ -21,7 +21,7 @@ export class ClientsService {
 
   private getAuthHeaders() {
     const token = localStorage.getItem('token');
-    return { headers: new HttpHeaders({ 'Authorization': `Bearer ${token}` }) };
+    return { headers: new HttpHeaders({ Authorization: `Bearer ${token}` }) };
   }
 
   getClients(): Observable<Client[]> {

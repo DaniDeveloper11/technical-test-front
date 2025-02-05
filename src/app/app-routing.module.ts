@@ -11,14 +11,19 @@ const routes: Routes = [
   {
     path: 'home',
     loadChildren: () => import('./features/home/home.module').then(m => m.HomeModule),
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard] // Protegido por AuthGuard
   },
   {
     path: 'users',
     loadChildren: () => import('./features/users/users.module').then(m => m.UsersModule),
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard] // Protegido por AuthGuard
   },
-  { path: '**', redirectTo: 'auth/login' }
+  {
+    path: 'clients',
+    loadChildren: () => import('./features/clients/clients.module').then(m => m.ClientsModule),
+    canActivate: [AuthGuard] // Protegido por AuthGuard
+  },
+  { path: '**', redirectTo: 'auth/login' } // Redirección a login si la ruta no existe
 ];
 
 @NgModule({
