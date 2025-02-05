@@ -2,16 +2,25 @@
   <h2 class="text-center text-md-start">Gestión de Clientes</h2>
 
   <!-- Barra de búsqueda y filtros -->
-  <div class="d-flex flex-column flex-md-row flex-wrap justify-content-between align-items-center mb-3 gap-2">
-    <input type="text" class="form-control w-100 w-md-50" [(ngModel)]="searchQuery" placeholder="Buscar por nombre..." (input)="applyFilters()">
+  <div class="row g-2 align-items-center mb-3">
+    <!-- Input de búsqueda -->
+    <div class="col-12 col-md-5 col-lg-4">
+      <input type="text" class="form-control" [(ngModel)]="searchQuery" placeholder="Buscar por nombre..." (input)="applyFilters()">
+    </div>
 
-    <select class="form-select w-100 w-md-25" [(ngModel)]="statusFilter" (change)="applyFilters()">
-      <option value="">Todos</option>
-      <option value="active">Activos</option>
-      <option value="inactive">Inactivos</option>
-    </select>
+    <!-- Filtro por estado -->
+    <div class="col-12 col-md-4 col-lg-3">
+      <select class="form-select" [(ngModel)]="statusFilter" (change)="applyFilters()">
+        <option value="">Todos</option>
+        <option value="active">Activos</option>
+        <option value="inactive">Inactivos</option>
+      </select>
+    </div>
 
-    <a *ngIf="filteredClients.length > 0" routerLink="/clients/create" class="btn btn-primary w-100 w-md-auto">+ Agregar Cliente</a>
+    <!-- Botón de agregar cliente -->
+    <div class="col-12 col-md-3 col-lg-2 text-md-end">
+      <a *ngIf="filteredClients.length > 0" routerLink="/clients/create" class="btn btn-primary w-100 w-md-auto">+ Agregar Cliente</a>
+    </div>
   </div>
 
   <!-- Estado vacío -->

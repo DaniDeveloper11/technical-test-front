@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ClientsService, Client } from '../../../../core/services/clients.service';
+import { AlertService } from '../../../../core/services/alert.service';
 
 @Component({
   selector: 'app-edit-client',
@@ -14,7 +15,8 @@ export class EditClientComponent implements OnInit {
   constructor(
     private clientsService: ClientsService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private alertService:AlertService
   ) {}
 
   ngOnInit(): void {
@@ -30,8 +32,17 @@ export class EditClientComponent implements OnInit {
 
   updateClient(): void {
     if (this.clientId) {
-      this.clientsService.updateClient(this.clientId, this.client).subscribe(() => {
-        this.router.navigate(['/clients']); // Redirigir a la lista después de actualizar
+      this.alertService.confirmUpdate(() => { // Usar SweetAlert2 como confirmación
+        this.clientsService.updateClient(this.clientId, this.client).subscribe({
+          next: () => {
+            this.alertService.success('Actualizado', 'Cliente actualizado con éxito').then(() => {
+              this.router.navigate(['/clients']); // Redirigir después de cerrar la alerta
+            });
+          },
+          error: () => {
+            this.alertService.error('Error', 'No se pudo actualizar el cliente');
+          }
+        });
       });
     }
   }

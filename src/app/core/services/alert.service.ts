@@ -42,4 +42,21 @@ export class AlertService {
       }
     });
   }
+
+  confirmUpdate(callback: () => void): void {
+    Swal.fire({
+      title: '¿Confirmar cambios?',
+      text: 'Se actualizarán los datos del cliente',
+      icon: 'info',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí, actualizar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        callback();
+      }
+    });
+  }
 }

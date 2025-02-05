@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ClientsService, Client } from '../../../../core/services/clients.service';
+import { AlertService } from '../../../../core/services/alert.service';
 
 @Component({
   selector: 'app-list-clients',
@@ -14,7 +15,7 @@ export class ListClientsComponent implements OnInit {
   currentPage: number = 1;
   itemsPerPage: number = 10;
 
-  constructor(private clientsService: ClientsService) {}
+  constructor(private clientsService: ClientsService, private alertService: AlertService) {}
 
   ngOnInit(): void {
     this.fetchClients();
@@ -40,9 +41,17 @@ export class ListClientsComponent implements OnInit {
     this.currentPage = page;
   }
 
-  deleteClient(id: number): void {
-    this.clientsService.deleteClient(id).subscribe(() => {
-      this.fetchClients();
+  deleteClient(clientId: number): void {
+    this.alertService.confirmDelete(() => {
+      this.clientsService.deleteClient(clientId).subscribe({
+        next: () => {
+          this.alertService.success('Eliminado', 'Cliente eliminado con éxito');
+          this.fetchClients(); // Recargar la lista
+        },
+        error: () => {
+          this.alertService.error('Error', 'No se pudo eliminar el cliente');
+        }
+      });
     });
   }
   getTotalPages(): number[] {
