@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../../../../core/services/auth.service';
 import { Router } from '@angular/router';
+import { AlertService } from '../../../../core/services/alert.service';
 
 @Component({
   selector: 'app-login',
@@ -14,23 +15,23 @@ export class LoginComponent {
   errorMessage : string = ''
 
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private alertService: AlertService) {}
 
   onSubmit(): void {
     this.isSubmitting = true;
     this.errorMessage = '';
 
     this.authService.login(this.email, this.password).subscribe({
-      // this.isSubmitting = false;
-      // if (success) {
-      //   this.router.navigate(['/home']); // Redirigir a Home después del login exitoso
-      // } else {
-      //   this.errorMessage = 'Credenciales incorrectas';
-      // }
       next: () => {
-        this.router.navigate(['/home']); // Redirige después del login
+        this.alertService.success('¡Bienvenido!', 'Has iniciado sesión correctamente.').then(() => {
+          this.router.navigate(['/home']); // Redirigir a home después de cerrar la alerta
+        });
       },
       error: () => {
+        this.alertService.error('Error', 'Correo o contraseña incorrectos.');
         this.errorMessage = 'Invalid email or password';
         this.isSubmitting = false;
       }
